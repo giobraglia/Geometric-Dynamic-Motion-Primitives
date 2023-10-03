@@ -8,8 +8,7 @@ This study presents a novel parameterization approach for DMP that allows for th
 The related article will soon be ready.
 
 ## Authors
-Giovanni Braglia, Davide Tebaldi and Luigi Biagiotti ,
-Engineering Departement Enzo Ferrari, University of Modena and Reggio Emilia.
+Giovanni Braglia, Davide Tebaldi and Luigi Biagiotti , from the Engineering Departement Enzo Ferrari, University of Modena and Reggio Emilia.
 
 ## Important Resources
 
