@@ -15,10 +15,8 @@ clc
 
 DoF = 7; % Degree of Freedom, 7 for Franka robot
 load('Q_dim.mat');
+load('Filtered_Trajectory_X.mat');
 
-
-qtr = Q_dim(2:8,:);
-qtr = qtr';
 
 l  = length(qtr);
 Ts = 0.001;
@@ -33,9 +31,7 @@ time_qtr = linspace( 0, l*Ts, l )';
 % Application of Spatial Sampling
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[tn,sn,xn]= SpatialSampling(time_qtr,qtr,0.006);
-
-
+xn = qtr;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure 1:
@@ -80,7 +76,7 @@ dds=diff(ds)/(time_qtr(2)-time_qtr(1));
 % Parameterization with Radial Basis Functions (RBF)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-N = 30;  % Number of RBF
+N = 22;  % Number of RBF
 L = length( xn );
 c = linspace ( 0 - 1/(N-3), s_fin + 1/(N-3), N )' ; % centers of RBF
 h = 1/(2*(N));  % variance of RBF
@@ -219,13 +215,15 @@ for ii=1:size(qtr,2)
     %
     subplot(3,7,ii+7);
     hold on; grid on; zoom on;
-    plot(s_range(2:end),dqtrii_par(2:end).*ds,'b');
+%     plot(s_range(2:end),dqtrii_par(2:end).*ds,'b');
+    plot(s_range,dqtrii_par,'b');
     ylabel('[rad/s]')
     title('calc (g) and par (b)')
     %
     subplot(3,7,ii+14);
     hold on; grid on; zoom on;
-    plot(s_range(3:end),ddqtrii_par(3:end).*ds2(2:end)+dqtrii_par(3:end).*dds,'b');
+%     plot(s_range(3:end),ddqtrii_par(3:end).*ds2(2:end)+dqtrii_par(3:end).*dds,'b');
+    plot(s_range,ddqtrii_par,'b');
     xlabel('Time [s]')
     ylabel('[rad/s^2]')
     title('calc (g) and par (b)')

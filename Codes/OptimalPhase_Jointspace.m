@@ -28,7 +28,9 @@ function OptimalPhase_Jointspace
     dq_max  = [ 2.1750, 2.1750, 2.1750, 2.1750, 2.6100, 2.6100, 2.6100 ]; % [rad/s]
     ddq_max = [ 15, 7.5, 10, 12.5, 15, 20, 20 ]; % [rad/s^2]
 
-    load('Filtered_Trajectory_Q.mat'); % from 'TrajParam_Jointspace.m'
+    load('Q_dim.mat');
+    load('Filtered_Trajectory_X.mat');
+    xn = qtr;
 
 
     % Simulation Parameters
@@ -176,27 +178,20 @@ function OptimalPhase_Jointspace
     figure(1); clf;
     %-----
     subplot(3,1,1)
-    plot( time, s_opt, 'LineWidth', 2 );
-    ax(1)=subplot(3,1,1);
+    plot( time, s_opt, 'LineWidth', 2.5 );
     xlabel('time [s]')
     ylabel('s_{opt}')
 
     subplot(3,1,2)
-    [ds_opt_calc,~]=deriva(time,s_opt);
-    plot( time, ds_opt, 'LineWidth', 2 );
-    hold on
-    plot( time, ds_opt_calc,'r--');
-    ax(2)=subplot(3,1,2);
+    plot( time, ds_opt, 'LineWidth', 2.5 );
     xlabel('time [s]')
     ylabel('ds_{opt}')
 
     subplot(3,1,3)
-    plot( time, dds_opt, 'LineWidth', 2 );
-    ax(3)=subplot(3,1,3);
+    plot( time, dds_opt, 'LineWidth', 2.5 );
     xlabel('time [s]')
     ylabel('dds_{opt}')
 
-    linkaxes(ax,'x')
 
     figure(2); clf;
     %-----
@@ -236,7 +231,6 @@ function OptimalPhase_Jointspace
     set(leg,'Interpreter','latex');
     set(leg,'FontSize',12);
 
-    %%
 
     figure(4); clf;
     %-----
