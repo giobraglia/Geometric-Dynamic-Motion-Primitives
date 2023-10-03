@@ -1,3 +1,8 @@
+%
+% Written by Giovanni Braglia and Davide Tebaldi, 2023
+% University of Modena and Reggio Emilia
+% website: https://www.automatica.unimore.it/
+%
 %---------------------------------------------------------------------
 function dphi = first_der( rbf, drbf, sum_rbf, dsum_rbf )
 %---------------------------------------------------------------------
