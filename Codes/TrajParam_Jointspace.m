@@ -68,8 +68,7 @@ set(hh,'Name',[num2str(NrFig) '.' Fig_Name])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% s_range=sn;
-s_range = linspace( 0, sn(end), length(sn) );
+s_range=sn;
 s_fin=s_range(end);
 time_qtr=tn;
 ds=diff(s_range)/(time_qtr(2)-time_qtr(1));
@@ -81,7 +80,7 @@ dds=diff(ds)/(time_qtr(2)-time_qtr(1));
 % Parameterization with Radial Basis Functions (RBF)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-N = 22;  % Number of RBF
+N = 30;  % Number of RBF
 L = length( xn );
 c = linspace ( 0 - 1/(N-3), s_fin + 1/(N-3), N )' ; % centers of RBF
 h = 1/(2*(N));  % variance of RBF
@@ -129,8 +128,8 @@ for ii=1:size(qtr,2)
     dPSI=ones([L,N]);
     ddPSI=ones([L,N]);
 
-    Aeq=zeros([4,N]);  % constraint matrix for initial/final
-    beq=zeros([4,1]);  % velocities and accelerations --> NOT USED
+%     Aeq=ones([4,N]);  % constraint matrix for initial/final
+%     beq=zeros([4,1]);  % velocities and accelerations --> NOT USED
 
     Ayg=ones([2,N]);   % constraint matrix for initial/final positions
     byg=[qd(1),qd(end)]';
@@ -152,7 +151,7 @@ for ii=1:size(qtr,2)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Weights Calculation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    W = LagrangeApprox( qd, PSI, beq, Aeq, Ayg, byg, N );
+    W = LagrangeApprox( qd, PSI, Ayg, byg, N );
     clc;
 
 
@@ -324,15 +323,15 @@ end
 
 
 %---------------------------------------------------------------------
-function P = LagrangeApprox( yd, PSI, beq, Aeq, Ayg, byg, N )
+function P = LagrangeApprox( yd, PSI, Ayg, byg, N )
 %---------------------------------------------------------------------
 % Computes analitically the weighting coefficients for the
 % approximation of 'yd' with RBF basis functions
 
     L  = length( yd );
     W  = eye( L ) .* 1e0;
-    Bi = vertcat( Aeq, Ayg );
-    Ri = vertcat( beq, byg );
+    Bi = Ayg; 
+    Ri = byg; 
     Ba = PSI;
     Ra = yd;
 

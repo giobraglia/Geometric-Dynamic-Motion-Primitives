@@ -132,8 +132,6 @@ for ii=1:size(ptr,2)
     dPSI=ones([L,N]);
     ddPSI=ones([L,N]);
 
-    Aeq=zeros([4,N]);  % constraint matrix for initial/final 
-    beq=zeros([4,1]);  % velocities and accelerations --> NOT USED
 
     Ayg=ones([2,N]);   % constraint matrix for initial/final positions
     byg=[pd(1),pd(end)]';
@@ -156,7 +154,7 @@ for ii=1:size(ptr,2)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Weights Calculation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    W = LagrangeApprox( pd, PSI, beq, Aeq, Ayg, byg, N );
+    W = LagrangeApprox( pd, PSI, Ayg, byg, N );
     clc;
 
 
@@ -329,15 +327,15 @@ end
 
 
 %---------------------------------------------------------------------
-function P = LagrangeApprox( yd, PSI, beq, Aeq, Ayg, byg, N )
+function P = LagrangeApprox( yd, PSI, Ayg, byg, N )
 %---------------------------------------------------------------------
 % Computes analitically the weighting coefficients for the
 % approximation of 'yd' with RBF basis functions
 
     L  = length( yd );
     W  = eye( L ) .* 1e0;
-    Bi = vertcat( Aeq, Ayg );
-    Ri = vertcat( beq, byg );
+    Bi = Ayg;
+    Ri = byg;
     Ba = PSI;
     Ra = yd;
 
