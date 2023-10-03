@@ -35,6 +35,6 @@ Here I leave attached the materials that helped us writing the codes.
 - **Models/(Geometric_DMP_R2020a.slx, Geometric_DMP_R2021a.slx, Geometric_DMP_R2022a.slx)** : Simulink models of a 1D GDMP block.
 
 ## Questions & Suggestions
-All codes were tested on MATLAB 2022a. Due to internal dependencies in the codes, it is important to run first *Codes/TrajParam_Workspace.m* and *Codes/TrajParam_Jointspace.m*.
+All codes were tested on MATLAB 2022a. Due to internal dependencies in the codes, it is important to run first *Codes/TrajParam_Workspace.m* and, successively, *Codes/TrajParam_Jointspace.m*.
 For any doubt, question or suggestion, please feel free to email at:
 giovanni.braglia@unimore.it
