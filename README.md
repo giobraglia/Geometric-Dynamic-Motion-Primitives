@@ -18,8 +18,8 @@ Here I leave attached the materials that helped us writing the codes.
 
 ## Folders
 
-- **Codes/X_dim.mat** : an array of recorded Cartesian position used as an example for the codes;
-- **Codes/Q_dim.mat** : an array of recorded joint position used as an example for the codes; 
+- **Data/X_dim.mat** : an array of recorded Cartesian position used as an example for the codes;
+- **Data/Q_dim.mat** : an array of recorded joint position used as an example for the codes; 
 - **Codes/TrajParam_Workspace.m** : script that produces the symbolic functions used in the GDMP for Cartesian position;
 - **Codes/TrajParam_Jointspace.m** : script that produces the symbolic functions used in the GDMP for joints position; 
 - **Codes/OptimalPhase_Workspace.m** : script to optimize the phase variable of GDMP to minimize the task execution period and reach a constant feed-rate;
