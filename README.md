@@ -9,7 +9,7 @@ The related article will soon be ready.
 
 ## Authors
 Giovanni Braglia, Davide Tebaldi and Luigi Biagiotti , from the Engineering Departement Enzo Ferrari, University of Modena and Reggio Emilia.
-Check our lab at: https://www.automatica.unimore.it/
+Check out our lab at: https://www.automatica.unimore.it/
 
 ## Important Resources
 
