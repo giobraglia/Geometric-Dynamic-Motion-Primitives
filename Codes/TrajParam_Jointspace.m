@@ -21,27 +21,6 @@ qtr      = Q_dim(2:8,:)';
 time_qtr = Q_dim(1,:)';
 Ts       = 0.001;
 
-
-% tn_tmp = round( tn, 3);
-% qn = zeros( [length(tn),DoF] );
-% tolerance = 1e-10;
-% exitLoops = false;
-% j  = 1;
-% for i=1:length(time_qtr)
-%    while isequal(abs(tn_tmp(j) - time_qtr(i)) < tolerance, 1)
-%        qn(j,:) = qtr(i,:);
-%        j = j+1;
-%        if j==length(tn)+1
-%            exitLoops = true;
-%            break;
-%        end
-%    end
-% 
-%    if exitLoops
-%        break;
-%    end
-% end
-
 delta = 0.006;
 [tn,sn,qn]= SpatialSampling( time_qtr, qtr, delta );
 
