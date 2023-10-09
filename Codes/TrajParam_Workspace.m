@@ -16,15 +16,9 @@ clc
 DoF = 3; % Degree of Freedom, 3 for Cartesian coordinates
 load('X_dim.mat');
 
-ptr = X_dim(2:4,:);
-ptr = ptr';
-
-
-l  = length(ptr);
-Ts = 0.001;
-time_ptr = linspace( 0, l*Ts, l )';
-
-
+ptr      = X_dim(2:4,:)';
+time_ptr = X_dim(1,:)';
+Ts       = 0.001;
 
 
 %%
@@ -33,8 +27,9 @@ time_ptr = linspace( 0, l*Ts, l )';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Application of Spatial Sampling
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-[tn,sn,xn]= SpatialSampling( time_ptr, ptr, 0.006 );
+
+delta = 0.006;
+[tn,sn,xn]= SpatialSampling( time_ptr, ptr, delta );
 
 
 
@@ -85,40 +80,48 @@ dds=diff(ds)/(time_ptr(2)-time_ptr(1));
 N = 22;  % Number of RBF
 L = length( xn );
 c = linspace ( 0 - 1/(N-3), s_fin + 1/(N-3), N )' ; % centers of RBF
-h = 1/(2*(N));  % variance of RBF
+
+h = zeros( size(c) );
+k = 1.3; ... [1.2, 1.5]
+for i=1:N-1
+    h(i) = 0.5* ( k * ( c(i+1) - c(i) ) )^2;
+end
+h(end) = h(end-1);
 
 
+RBF   = cell ( [ N, 1] );    ... array of RBF functions
+dRBF  = cell ( [ N, 1] );    ... array of first derivatives    
+ddRBF = cell ( [ N, 1] );    ... array of second derivatives
 
-RBF   = cell([N,1]);   % array of RBF functions
-dRBF  = cell([N,1]);   % array of first derivatives
-ddRBF = cell([N,1]);   % array of second derivatives
+for i = 1 : N 
+    RBF{i}   = @(s) exp( - ( s - c(i) ).^2 / ( 2 * h(i) ) ); 
+    dRBF{i}  = @(s) ( - ( s - c(i) ) / h(i) ) .* exp( - ( s - c(i) ).^2 / ( 2 * h(i) ) );
+    ddRBF{i} = @(s) ( -1/h(i) + ( -( s - c(i) ) / h(i) ) .^2 ) .* exp( - ( s - c(i) ).^2 / ( 2 * h(i) ) );
+end    
 
-for jj=1:N
-    RBF{jj}   = @(s) exp(-(s-c(jj)).^2/(2*h)); 
-    dRBF{jj}  = @(s) -(s-c(jj))/h.*RBF{jj}(s); 
-    ddRBF{jj} = @(s) -1/h.*RBF{jj}(s)+(s-c(jj)).^2/(h.^2).*RBF{jj}(s); 
+sum_rbf   = @(s) RBF{1}(s);
+dsum_rbf  = @(s) dRBF{1}(s);
+ddsum_rbf = @(s) ddRBF{1}(s);
+for i = 2 : N 
+    sum_rbf   = @(s) sum_rbf(s)   + RBF{i}(s);
+    dsum_rbf  = @(s) dsum_rbf(s)  + dRBF{i}(s);
+    ddsum_rbf = @(s) ddsum_rbf(s) + ddRBF{i}(s);
 end
 
-sum_rbf   = @(s)RBF{1}(s);
-dsum_rbf  = @(s)dRBF{1}(s);
-ddsum_rbf = @(s)ddRBF{1}(s);
-for jj=2:N
-    sum_rbf   = @(s) sum_rbf(s)+RBF{jj}(s);
-    dsum_rbf  = @(s) dsum_rbf(s)+dRBF{jj}(s);
-    ddsum_rbf = @(s) ddsum_rbf(s)+ddRBF{jj}(s);
+
+Phi   = cell ( [ N, 1] ); 
+dPhi  = cell ( [ N, 1] ); 
+ddPhi = cell ( [ N, 1] ); 
+
+for i = 1:N
+    Phi{i}   = @(s) RBF{i}(s) ./ sum_rbf(s);
+    dPhi{i}  = first_der( RBF{i}, dRBF{i}, sum_rbf, dsum_rbf );
+    ddPhi{i} = second_der( RBF{i}, dRBF{i}, ddRBF{i}, sum_rbf, dsum_rbf, ddsum_rbf );
 end
 
-
-Phi   = cell([N,1]); % normalized RBF
-dPhi  = cell([N,1]); % normalized dRBF
-ddPhi = cell([N,1]); % normalized ddRBF
-
-for jj=1:N
-    Phi{jj}   = @(s) RBF{jj}(s)./sum_rbf(s);
-    dPhi{jj}  = first_der(RBF{jj},dRBF{jj},sum_rbf,dsum_rbf);
-    ddPhi{jj} = second_der(RBF{jj},dRBF{jj},ddRBF{jj},sum_rbf,dsum_rbf,ddsum_rbf);
-end
-
+ptr_par   = ones( [L,DoF] );
+dptr_par  = ones( [L,DoF] );
+ddptr_par = ones( [L,DoF] );
 
 for ii=1:size(ptr,2)
 
@@ -179,8 +182,6 @@ for ii=1:size(ptr,2)
      end
 
      ysym   = p(sym('s'));
-
-
      matlabFunction(ysym,'File',['x' num2str(ii) '_of_s']);
 
      dysym  = dp(sym('s'));
@@ -201,38 +202,27 @@ for ii=1:size(ptr,2)
     dptr_par(:,ii)=dPSI*W;
     ddptr_par(:,ii)=ddPSI*W;
 
-    ptrii_par=pd*0;
-    dptrii_par=pd*0;
-    ddptrii_par=pd*0;
-    for jj=1:length(ptrii_par)
-        eval(['ptrii_par(jj)=x' num2str(ii) '_of_s(s_range(jj));']);
-        eval(['dptrii_par(jj)=dx' num2str(ii) '_of_s(s_range(jj));']);
-        eval(['ddptrii_par(jj)=ddx' num2str(ii) '_of_s(s_range(jj));']);
-    end
-
-
     figure(2)
     %
     subplot(3,3,ii);
     plot(s_range,pd,'r--');
     hold on; grid on; zoom on;
-    plot(s_range,ptrii_par,'b');
+    plot(s_range,ptr_par(:,ii),'b');
     ylabel('[m]')
     title('actual (r) and par (b)')
     %
     subplot(3,3,ii+3);
     hold on; grid on; zoom on;
-    plot(s_range(2:end),dptrii_par(2:end).*ds,'b');
+    plot(s_range,dptr_par(:,ii),'b');
     ylabel('[m/s]')
     title('calc (g) and par (b)')
     %
     subplot(3,3,ii+6);
     hold on; grid on; zoom on;
-    plot(s_range(3:end),ddptrii_par(3:end).*ds2(2:end)+dptrii_par(3:end).*dds,'b');
+    plot(s_range,ddptr_par(:,ii),'b');
     xlabel('Time [s]')
     ylabel('[m/s^2]')
     title('calc (g) and par (b)')
-
 
 end
 
