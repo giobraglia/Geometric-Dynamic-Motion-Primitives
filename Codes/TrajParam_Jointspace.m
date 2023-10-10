@@ -16,8 +16,8 @@ clc
 
 
 DoF = 7; % Degree of Freedom, 7 for Franka robot
-load('Q_dim.mat');
-load('Filtered_Trajectory_X.mat');
+load('Data/Q_dim.mat');
+load('Data/Filtered_Trajectory_X.mat');
 
 qn = Q_dim;
 Ts = 0.001; % Sampling time
