@@ -91,5 +91,5 @@ function Workspace2Jointspace
     ylabel('rad')
     title('Jointspace trajectories, spatial filtered');
 
-    save('Q_dim', 'Q_dim');
+    save('Data/Q_dim.mat', 'Q_dim');
 end
