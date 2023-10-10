@@ -30,7 +30,7 @@ function OptimalPhase_Jointspace
 
     load('Data/Q_dim.mat');
     load('Data/Filtered_Trajectory_X.mat');
-    xn = qtr;
+    xn = Q_dim;
 
 
     % Simulation Parameters
