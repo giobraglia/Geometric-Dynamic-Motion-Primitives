@@ -36,6 +36,6 @@ Here I leave attached the materials that helped us writing the codes.
 
 ## Questions & Suggestions
 All codes were tested on MATLAB 2022a. Due to internal dependencies in the codes, it is important to run first *Codes/TrajParam_Workspace.m*, successively *Codes/Workspace2Jointspace.m* and then *Codes/TrajParam_Jointspace.m*.
-To test Simulink blocks, the related parameters are written in *Codes/Simulink_paramters.m*.
+To test Simulink blocks, the related parameters are written in *Codes/Simulink_Paramters.m*.
 For any doubt, question or suggestion, please feel free to email at:
 giovanni.braglia@unimore.it
