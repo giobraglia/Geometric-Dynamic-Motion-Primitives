@@ -14,7 +14,7 @@ clc
 
 
 DoF = 3; % Degree of Freedom, 3 for Cartesian coordinates
-load('X_dim.mat');
+load('Data/X_dim.mat');
 
 l  = length(X_dim);
 Ts = 0.001; % Sampling time of recorded trajectory
@@ -229,7 +229,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Save variables for Optimization
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-save('Filtered_Trajectory_X.mat','tn','sn','xn')
+save('Data/Filtered_Trajectory_X.mat','tn','sn','xn')
 
 
 
