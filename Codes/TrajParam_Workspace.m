@@ -16,12 +16,12 @@ clc
 DoF = 3; % Degree of Freedom, 3 for Cartesian coordinates
 load('X_dim.mat');
 
-ptr      = X_dim(2:4,:)';
-time_ptr = X_dim(1,:)';
-Ts       = 0.001;
+l  = length(X_dim);
+Ts = 0.001; % Sampling time of recorded trajectory
 
+ptr      = X_dim;
+time_ptr = linspace(0,l*Ts,l)'; 
 
-%%
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,11 +43,11 @@ set(hh,'NumberTitle','off')
 set(hh,'Name',[num2str(NrFig) '.' Fig_Name])
 % set(hh,'PaperPositionMode','manual','PaperPosition',[5 0 15 17.75]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-for ii=1:size(ptr,2)
+for ii=1:DoF
     subplot(4,2,ii)
-    plot(time_ptr,ptr(:,ii))
+    plot(time_ptr,ptr(:,ii),'LineWidth',2)
     grid on; zoom on; hold on;
-    plot(tn,xn(:,ii),'r--')
+    plot(tn,xn(:,ii),'r--','LineWidth',2)
     xlabel('Time [s]')
     ylabel('m')
     title(['x' num2str(ii)])
@@ -123,7 +123,7 @@ ptr_par   = ones( [L,DoF] );
 dptr_par  = ones( [L,DoF] );
 ddptr_par = ones( [L,DoF] );
 
-for ii=1:size(ptr,2)
+for ii=1:DoF
 
     pd=xn(:,ii);
 
@@ -207,22 +207,22 @@ for ii=1:size(ptr,2)
     subplot(3,3,ii);
     plot(s_range,pd,'r--');
     hold on; grid on; zoom on;
-    plot(s_range,ptr_par(:,ii),'b');
-    ylabel('[m]')
+    plot(s_range,ptr_par(:,ii),'b','LineWidth',2);
+    ylabel('m')
     title('actual (r) and par (b)')
     %
     subplot(3,3,ii+3);
     hold on; grid on; zoom on;
-    plot(s_range,dptr_par(:,ii),'b');
-    ylabel('[m/s]')
-    title('calc (g) and par (b)')
+    plot(s_range,dptr_par(:,ii),'b','LineWidth',2);
+    ylabel('m/s')
+    title('par vel')
     %
     subplot(3,3,ii+6);
     hold on; grid on; zoom on;
-    plot(s_range,ddptr_par(:,ii),'b');
-    xlabel('Time [s]')
-    ylabel('[m/s^2]')
-    title('calc (g) and par (b)')
+    plot(s_range,ddptr_par(:,ii),'b','LineWidth',2);
+    xlabel('Phase s')
+    ylabel('m/s^2')
+    title('par acc')
 
 end
 

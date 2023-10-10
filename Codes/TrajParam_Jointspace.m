@@ -3,6 +3,8 @@
 % The recorded trajectory is a [DoF+1, N] array, the first row
 % is the recorded time (not used), N is the number of datapoints.
 %
+% To run this code first run 'TrajParam_Workspace.m' then
+% 'Workspace2Jointspace.m'
 %
 % Written by Giovanni Braglia and Davide Tebaldi, 2023
 % University of Modena and Reggio Emilia
@@ -15,14 +17,10 @@ clc
 
 DoF = 7; % Degree of Freedom, 7 for Franka robot
 load('Q_dim.mat');
-% load('Filtered_Trajectory_X.mat');
+load('Filtered_Trajectory_X.mat');
 
-qtr      = Q_dim(2:8,:)';
-time_qtr = Q_dim(1,:)';
-Ts       = 0.001;
-
-delta = 0.006;
-[tn,sn,qn]= SpatialSampling( time_qtr, qtr, delta );
+qn = Q_dim;
+Ts = 0.001; % Sampling time
 
 
 
@@ -36,11 +34,11 @@ set(hh,'NumberTitle','off')
 set(hh,'Name',[num2str(NrFig) '.' Fig_Name])
 % set(hh,'PaperPositionMode','manual','PaperPosition',[5 0 15 17.75]);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-for ii=1:size(qtr,2)
+for ii=1:DoF
     subplot(4,2,ii)
-    plot(time_qtr,qtr(:,ii))
+%     plot(time_qtr,qtr(:,ii))
     grid on; zoom on; hold on;
-    plot(tn,qn(:,ii),'r--')
+    plot(tn,qn(:,ii),'LineWidth',2)
     xlabel('Time [s]')
     ylabel('rad')
     title(['q' num2str(ii)])
@@ -115,7 +113,7 @@ qtr_par   = ones( [L,DoF] );
 dqtr_par  = ones( [L,DoF] );
 ddqtr_par = ones( [L,DoF] );
 
-for ii=1:size(qtr,2)
+for ii=1:DoF
 
     qd=qn(:,ii);
 
@@ -161,26 +159,26 @@ for ii=1:size(qtr,2)
 %   | to test  'OptimalPhase_Jointspace.m'.    |
 %   | ---------------------------------------- |
 %
-%     q   = @(s) W(1).*Phi{1}(s);
-%     dq  = @(s) W(1).*dPhi{1}(s);
-%     ddq = @(s) W(1).*ddPhi{1}(s);
-% 
-%     for jj = 2:N
-%         q   = @(s) q(s)   + W(jj).*Phi{jj}(s);
-%         dq  = @(s) dq(s)  + W(jj).*dPhi{jj}(s);
-%         ddq = @(s) ddq(s) + W(jj).*ddPhi{jj}(s);
-%     end
-% 
-%     ysym   = q(sym('s'));
-%     matlabFunction(ysym,'File',['q' num2str(ii) '_of_s']);
-% 
-%     dysym  = dq(sym('s'));
-%     matlabFunction(dysym,'File',['dq' num2str(ii) '_of_s']);
-% 
-%     ddysym = ddq(sym('s'));
-%     matlabFunction(ddysym,'File',['ddq' num2str(ii) '_of_s']);
-% 
-%     clear q dq ddq ysym dysym ddysym
+    q   = @(s) W(1).*Phi{1}(s);
+    dq  = @(s) W(1).*dPhi{1}(s);
+    ddq = @(s) W(1).*ddPhi{1}(s);
+
+    for jj = 2:N
+        q   = @(s) q(s)   + W(jj).*Phi{jj}(s);
+        dq  = @(s) dq(s)  + W(jj).*dPhi{jj}(s);
+        ddq = @(s) ddq(s) + W(jj).*ddPhi{jj}(s);
+    end
+
+    ysym   = q(sym('s'));
+    matlabFunction(ysym,'File',['q' num2str(ii) '_of_s']);
+
+    dysym  = dq(sym('s'));
+    matlabFunction(dysym,'File',['dq' num2str(ii) '_of_s']);
+
+    ddysym = ddq(sym('s'));
+    matlabFunction(ddysym,'File',['ddq' num2str(ii) '_of_s']);
+
+    clear q dq ddq ysym dysym ddysym
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,24 +192,24 @@ for ii=1:size(qtr,2)
     figure(2)
     %
     subplot(3,7,ii);
-    plot(s_range,qd,'r--');
+    plot(s_range,qd,'r--','LineWidth',2);
     hold on; grid on; zoom on;
-    plot(s_range,qtr_par(:,ii),'b');
-    ylabel('[rad]')
+    plot(s_range,qtr_par(:,ii),'b' ,'LineWidth',2);
+    ylabel('rad')
     title('actual (r) and par (b)')
     %
     subplot(3,7,ii+7);
     hold on; grid on; zoom on;
-    plot(s_range,dqtr_par(:,ii),'b');
-    ylabel('[rad/s]')
-    title('calc (g) and par (b)')
+    plot(s_range,dqtr_par(:,ii),'b','LineWidth',2);
+    ylabel('rad/s')
+    title('par vel')
     %
     subplot(3,7,ii+14);
     hold on; grid on; zoom on;
-    plot(s_range,ddqtr_par(:,ii),'b');
-    xlabel('Time [s]')
-    ylabel('[rad/s^2]')
-    title('calc (g) and par (b)')
+    plot(s_range,ddqtr_par(:,ii),'b','LineWidth',2);
+    xlabel('Phase s')
+    ylabel('rad/s^2')
+    title('par acc')
 
 
 end
