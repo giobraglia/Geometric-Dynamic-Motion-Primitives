@@ -10,7 +10,7 @@ function Workspace2Jointspace
     
     clear; clc;
 
-    load('X_dim.mat');
+    load('Data/X_dim.mat');
     
     l     = length(X_dim);
     Ts    = 0.001; % Sampling time of recorded trajectory
@@ -30,7 +30,7 @@ function Workspace2Jointspace
     Q_dim = zeros(length(xtr),7);
     
     % Put here the correct path to 'panda_model.urdf'
-    panda = importrobot('panda_model.urdf'); 
+    panda = importrobot('Data/panda_model.urdf'); 
     panda.Gravity = [0,0,-9.81];
     panda.Bodies{1,1}.Joint.HomePosition = 0;       % panda_joint1
     panda.Bodies{1,2}.Joint.HomePosition = -pi/4;   % panda_joint2
