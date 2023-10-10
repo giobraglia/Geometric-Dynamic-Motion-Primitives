@@ -23,7 +23,7 @@ clear; clc;
     import casadi.*
 
 
-    load('Filtered_Trajectory_X.mat'); % from 'TrajParam_Workspace.m'
+    load('Data/Filtered_Trajectory_X.mat'); % from 'TrajParam_Workspace.m'
 
     % Franka WorkSpace Velocities/Accelerations Limits
     vmax = 0.5;  % [m/s]
