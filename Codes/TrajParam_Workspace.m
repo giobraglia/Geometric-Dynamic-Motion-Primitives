@@ -14,6 +14,8 @@ clc
 
 
 DoF = 3; % Degree of Freedom, 3 for Cartesian coordinates
+
+addpath('Data');
 load('Data/X_dim.mat');
 
 l  = length(X_dim);
