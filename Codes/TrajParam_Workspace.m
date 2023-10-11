@@ -207,9 +207,9 @@ for ii=1:DoF
     figure(2)
     %
     subplot(3,3,ii);
-    plot(s_range,pd,'r--');
-    hold on; grid on; zoom on;
     plot(s_range,ptr_par(:,ii),'b','LineWidth',2);
+    hold on; grid on; zoom on;
+    plot(s_range,pd,'r--','LineWidth',2);
     ylabel('m')
     title('actual (r) and par (b)')
     %
