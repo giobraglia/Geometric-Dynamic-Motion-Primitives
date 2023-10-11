@@ -184,13 +184,13 @@ for ii=1:DoF
      end
 
      ysym   = p(sym('s'));
-     matlabFunction(ysym,'File',['x' num2str(ii) '_of_s']);
+     matlabFunction(ysym,'File',['Data/x' num2str(ii) '_of_s']);
 
      dysym  = dp(sym('s'));
-     matlabFunction(dysym,'File',['dx' num2str(ii) '_of_s']);
+     matlabFunction(dysym,'File',['Data/dx' num2str(ii) '_of_s']);
 
      ddysym = ddp(sym('s'));
-     matlabFunction(ddysym,'File',['ddx' num2str(ii) '_of_s']);
+     matlabFunction(ddysym,'File',['Data/ddx' num2str(ii) '_of_s']);
 
      clear p dp ddp ysym dysym ddysym
 
