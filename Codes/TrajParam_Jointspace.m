@@ -16,6 +16,8 @@ clc
 
 
 DoF = 7; % Degree of Freedom, 7 for Franka robot
+
+addpath('Data');
 load('Data/Q_dim.mat');
 load('Data/Filtered_Trajectory_X.mat');
 
