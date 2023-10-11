@@ -10,6 +10,7 @@ function Workspace2Jointspace
     
     clear; clc;
 
+    addpath('Data');
     load('Data/X_dim.mat');
     
     l     = length(X_dim);
@@ -29,7 +30,6 @@ function Workspace2Jointspace
     
     Q_dim = zeros(length(xtr),7);
     
-    % Put here the correct path to 'panda_model.urdf'
     panda = importrobot('Data/panda_model.urdf'); 
     panda.Gravity = [0,0,-9.81];
     panda.Bodies{1,1}.Joint.HomePosition = 0;       % panda_joint1
