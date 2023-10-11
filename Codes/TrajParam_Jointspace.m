@@ -171,13 +171,13 @@ for ii=1:DoF
     end
 
     ysym   = q(sym('s'));
-    matlabFunction(ysym,'File',['q' num2str(ii) '_of_s']);
+    matlabFunction(ysym,'File',['Data/q' num2str(ii) '_of_s']);
 
     dysym  = dq(sym('s'));
-    matlabFunction(dysym,'File',['dq' num2str(ii) '_of_s']);
+    matlabFunction(dysym,'File',['Data/dq' num2str(ii) '_of_s']);
 
     ddysym = ddq(sym('s'));
-    matlabFunction(ddysym,'File',['ddq' num2str(ii) '_of_s']);
+    matlabFunction(ddysym,'File',['Data/ddq' num2str(ii) '_of_s']);
 
     clear q dq ddq ysym dysym ddysym
 
