@@ -38,7 +38,6 @@ set(hh,'Name',[num2str(NrFig) '.' Fig_Name])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for ii=1:DoF
     subplot(4,2,ii)
-%     plot(time_qtr,qtr(:,ii))
     grid on; zoom on; hold on;
     plot(tn,qn(:,ii),'LineWidth',2)
     xlabel('Time [s]')
@@ -194,9 +193,9 @@ for ii=1:DoF
     figure(2)
     %
     subplot(3,7,ii);
-    plot(s_range,qd,'r--','LineWidth',2);
-    hold on; grid on; zoom on;
     plot(s_range,qtr_par(:,ii),'b' ,'LineWidth',2);
+    hold on; grid on; zoom on;
+    plot(s_range,qd,'r--','LineWidth',2);
     ylabel('rad')
     title('actual (r) and par (b)')
     %
