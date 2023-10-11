@@ -13,6 +13,8 @@ clear; clc;
 % Load and Filter recorded trajectory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+addpath('Data');
+addpath('Models');
 load('X_dim.mat');
 
 xtr = X_dim(2:4,:);
