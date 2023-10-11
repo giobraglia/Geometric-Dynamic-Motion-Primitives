@@ -22,7 +22,7 @@ clear; clc;
     addpath( '~/casadi-3.6.3-linux64-matlab2018b' );
     import casadi.*
 
-
+    addpath('Data');
     load('Data/Filtered_Trajectory_X.mat'); % from 'TrajParam_Workspace.m'
 
     % Franka WorkSpace Velocities/Accelerations Limits
