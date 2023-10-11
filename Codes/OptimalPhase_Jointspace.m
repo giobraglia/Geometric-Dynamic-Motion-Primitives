@@ -28,6 +28,7 @@ function OptimalPhase_Jointspace
     dq_max  = [ 2.1750, 2.1750, 2.1750, 2.1750, 2.6100, 2.6100, 2.6100 ]; % [rad/s]
     ddq_max = [ 15, 7.5, 10, 12.5, 15, 20, 20 ]; % [rad/s^2]
 
+    addpath('Data');
     load('Data/Q_dim.mat');
     load('Data/Filtered_Trajectory_X.mat');
     xn = Q_dim;
