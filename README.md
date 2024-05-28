@@ -1,4 +1,4 @@
-# Geometric-Dynamic-Motion-Primitives
+# Geometric-Dynamic-Movement-Primitives
 
 Here you can find the codes to play with Geometric Dynamic Motion Primitives (GDMP), featuring the transformation of the phase variable to the curvilinear abscissa of the demonstrated curve. All scripts were written in matlab code, including a Simulink file showing how to implement a Geometric DMP.
 
