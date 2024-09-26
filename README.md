@@ -5,8 +5,18 @@ Here you can find the codes to play with Geometric Dynamic Motion Primitives (GD
 ## The project
 This study presents a novel parameterization approach for DMP that allows for the decoupling of the Transformation System from the timing law employed during the demonstration of a desired task. Consequently, it offers the flexibility to independently select the phase law for the Canonical System.
 
-The related article will soon be ready.
-
+If you find the article useful, please cite:
+```bibtex 
+@misc{braglia2024phasefreedynamicmovementprimitives,
+      title={Phase-free Dynamic Movement Primitives Applied to Kinesthetic Guidance in Robotic Co-manipulation Tasks}, 
+      author={Giovanni Braglia and Davide Tebaldi and Luigi Biagiotti},
+      year={2024},
+      eprint={2401.08238},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2401.08238}, 
+}
+``` 
 ## Authors
 Giovanni Braglia, Davide Tebaldi and Luigi Biagiotti , from the Engineering Departement Enzo Ferrari, University of Modena and Reggio Emilia.
 Check out our lab at: https://www.automatica.unimore.it/
